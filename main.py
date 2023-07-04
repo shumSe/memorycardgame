@@ -10,6 +10,7 @@ import leaderboard as lb
 def main():
     window = tk.Tk()
     window.title("Memory game")
+    window.resizable(0,0)
 
     memory_game = Game(window)
     top = tk.Menu(window)
@@ -29,6 +30,7 @@ def main():
             player_name_input.delete(0, END)
             player_name_input.insert(0, "You should input name")
         else:
+            game_menu.entryconfig("New Game", state="disabled")
             my_leaderboard.destroy()
             player_name_input.destroy()
             memory_game.player_name = player_name
