@@ -12,13 +12,12 @@ def main():
     window.title("Memory game")
 
     memory_game = Game(window)
-    # menus
     top = tk.Menu(window)
     window.config(menu=top)
-    jeu = tk.Menu(top, tearoff=False)
-    top.add_cascade(label='Game', menu=jeu)
-    submenu = tk.Menu(jeu, tearoff=False)
-    jeu.add_cascade(label='New Game', menu=submenu)
+    game_menu = tk.Menu(top, tearoff=False)
+    top.add_cascade(label='Game', menu=game_menu)
+    submenu = tk.Menu(game_menu, tearoff=False)
+    game_menu.add_cascade(label='New Game', menu=submenu)
 
     player_name_input = tk.Entry(window, width=50)
     player_name_input.insert(0, "Enter your name")
@@ -52,7 +51,7 @@ def main():
         label='Hard',
         command=lambda: start_game(2)
     )
-    jeu.add_command(label='Close', command=window.destroy)
+    game_menu.add_command(label='Close', command=window.destroy)
 
     help_menu = tk.Menu(top, tearoff=False)
     top.add_cascade(label='Help', menu=help_menu)
@@ -84,7 +83,6 @@ def main():
 
     my_leaderboard.pack()
 
-    # Launch GUI
     window.mainloop()
 
 

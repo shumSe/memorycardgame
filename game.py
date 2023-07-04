@@ -41,7 +41,7 @@ class Game:
         self.cards_type = []
 
         self.window = window
-        self.main_frame = tk.Frame(self.window, height=500, width=500)
+        self.main_frame = tk.Frame(self.window)
         self.cards_frame = tk.Frame(self.window)
 
     def load_cards(self):
@@ -64,20 +64,29 @@ class Game:
         return sample(memory_cards, k=len(memory_cards))
 
     def check_game_over(self):
+        if self.game_over:
+            self.enable_timer = False
+            self.open_game_over_window(0)
+
         if len(self.found_cards) == self.cards_count:
             self.game_over = True
             self.player_time = self.timer()
             self.enable_timer = False
             lb.add_player(self.player_name, self.player_score, self.player_time)
-            self.open_game_over_window()
+            self.open_game_over_window(1)
 
-    def open_game_over_window(self):
+    def open_game_over_window(self, state):
         game_over_window = tk.Toplevel(self.window)
         game_over_window.title("Game Over")
         game_over_window.geometry("300x200")
+        end_text = ""
+        if state == 0:
+            end_text = "Game Over. Out of time"
+        else:
+            end_text = f"Game Over. The score is {self.player_score}. The time is {self.player_time}"
         tk.Label(
             master=game_over_window,
-            text=f"Game Over. The score is {self.player_score}. The time is {self.player_time}"
+            text=end_text
         ).grid(row=0, column=0)
 
     def setup_game_frame(self):
@@ -122,7 +131,6 @@ class Game:
             self.btn_cards[self.selected_cards[-2]].configure(
                 image=self.blank_card)
             self.check_game_over()
-
         self.redraw()
 
     def redraw(self):
@@ -141,16 +149,19 @@ class Game:
     def play_easy(self):
         self.game_size = self.board_sizes[0]
         self.cards_count = self.game_size[0] * self.game_size[1]
+        self.end_time = 60
         self.start_new_game()
 
     def play_medium(self):
         self.game_size = self.board_sizes[1]
         self.cards_count = self.game_size[0] * self.game_size[1]
+        self.end_time = 45
         self.start_new_game()
 
     def play_hard(self):
         self.game_size = self.board_sizes[2]
         self.cards_count = self.game_size[0] * self.game_size[1]
+        self.end_time = 30
         self.start_new_game()
 
     def display_player_score(self):
@@ -183,6 +194,9 @@ class Game:
     def timer(self):
         seconds = time.time() - self.start_time
         self.label_timer.config(text=str(seconds)[:5])
+        if int(seconds) >= self.end_time:
+            self.game_over = True
+            self.check_game_over()
         if self.enable_timer:
             self.label_timer.after(100, self.timer)
         return str(seconds)[:6]
