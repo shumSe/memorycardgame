@@ -39,6 +39,26 @@ def main():
             elif mode == 2:
                 memory_game.play_hard()
 
+    def open_rules():
+        rules_window = tk.Toplevel(window)
+        rules_window.title("Rules")
+        rules_window.geometry("300x200")
+        easy_text = "Easy - Board size: 4x3 - Time: 60 seconds"
+        medium_text = "Medium - Board size: 4x4 - Time: 45 seconds"
+        hard_text = "Hard - Board size: 5x4 - Time: 30 seconds"
+        tk.Label(
+            master=rules_window,
+            text=easy_text
+        ).grid(row=0, column=0)
+        tk.Label(
+            master=rules_window,
+            text=medium_text
+        ).grid(row=1, column=0)
+        tk.Label(
+            master=rules_window,
+            text=hard_text
+        ).grid(row=2, column=0)
+
     submenu.add_command(
         label='Easy',
         command=lambda: start_game(0)
@@ -55,7 +75,7 @@ def main():
 
     help_menu = tk.Menu(top, tearoff=False)
     top.add_cascade(label='Help', menu=help_menu)
-    help_menu.add_command(label='Rules', )
+    help_menu.add_command(label='Rules', command=open_rules)
 
     lb.create_table()
     my_leaderboard = ttk.Treeview(window)
@@ -84,7 +104,6 @@ def main():
     my_leaderboard.pack()
 
     window.mainloop()
-
 
 if __name__ == '__main__':
     main()
