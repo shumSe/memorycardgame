@@ -16,7 +16,7 @@ def add_player(name,score,time):
             c.execute("INSERT INTO leaderBoard (name,score,time) VALUES (?,?,?)",
                       (name, score, time))
             c.execute(
-                "CREATE TABLE ordered_board(name TEXT, score INT, time TEXT)")  # creates a temperor table for sorting the data
+                "CREATE TABLE ordered_board(name TEXT, score INT, time TEXT)")  
             c.execute(
                 "INSERT INTO ordered_board (name,score,time) SELECT name,score FROM leaderBoard ORDER BY score DESC ")
             c.execute("DROP TABLE leaderBoard")
