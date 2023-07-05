@@ -9,9 +9,9 @@ def create_table():
 
 
 def add_player(name,score,time):
-    if table_full():  # checks if the table is full
+    if table_full():  
         if not lowest_score(
-                score):  # if the table full and the score is higher than at least the last score add the score to the table
+                score): 
             c.execute('DELETE FROM leaderBoard WHERE rowid=10')
             c.execute("INSERT INTO leaderBoard (name,score,time) VALUES (?,?,?)",
                       (name, score, time))
@@ -21,11 +21,11 @@ def add_player(name,score,time):
                 "INSERT INTO ordered_board (name,score,time) SELECT name,score FROM leaderBoard ORDER BY score DESC ")
             c.execute("DROP TABLE leaderBoard")
             c.execute("ALTER TABLE ordered_board RENAME TO leaderBoard")
-    else:  # add the player if the table isn't full
+    else:  
         c.execute("INSERT INTO leaderBoard (name,score,time) VALUES (?,?,?)",
                   (name, score, time))
         c.execute(
-            "CREATE TABLE ordered_board(name TEXT, score INT, time TEXT)")  # creates a temperor table for sorting the data
+            "CREATE TABLE ordered_board(name TEXT, score INT, time TEXT)")  
         c.execute(
             "INSERT INTO ordered_board (name,score,time) SELECT name,score,time FROM leaderBoard ORDER BY score DESC ")
         c.execute("DROP TABLE leaderBoard")  #
