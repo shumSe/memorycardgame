@@ -28,7 +28,7 @@ def add_player(name,score,time):
             "CREATE TABLE ordered_board(name TEXT, score INT, time TEXT)")  
         c.execute(
             "INSERT INTO ordered_board (name,score,time) SELECT name,score,time FROM leaderBoard ORDER BY score DESC ")
-        c.execute("DROP TABLE leaderBoard")  #
+        c.execute("DROP TABLE leaderBoard")  
         c.execute("ALTER TABLE ordered_board RENAME TO leaderBoard")
     conn.commit()
     c.close()
